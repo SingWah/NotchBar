@@ -1,5 +1,7 @@
 # NotchBar
 
+<a href="README.md"><kbd><b>简体中文</b></kbd></a> <a href="README.en.md"><kbd>English</kbd></a>
+
 把 macOS 菜单栏那一条画成纯黑，让刘海融进同色区域里。不动壁纸，不动分辨率。
 
 只在带刘海的 MacBook 上生效；接外接显示器不会多出黑条。
