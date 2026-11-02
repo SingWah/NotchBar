@@ -9,8 +9,10 @@ Only shows up on MacBooks with a notch; external monitors never get the extra bl
 ![NotchBar in action](docs/notchbar-demo.gif)
 
 > The clip covers the menu bar strip only: bar on → off → on, with the menu on the last frame.
-> macOS screenshots do not include the camera housing, so what you are looking at is whether the
-> strip covers the whole top edge along with the notch.
+> The application menus and status items have been removed from the shots so only the strip is left,
+> and macOS screenshots never include the camera housing — the notch in the middle is drawn on at its
+> real size (200 × 40 pt). With the bar on it is the same black as the strip, leaving just the edge
+> glint, which is what the real screen looks like.
 
 ## Requirements
 
@@ -75,12 +77,18 @@ swift scripts/mkicon.swift Resources/icon_1024.png 1024
 
 The icon is drawn in code (`mkicon.swift` holds the shape itself), not traced from an image, so the repo only keeps `icon_1024.png` and `AppIcon.icns`.
 
-The demo GIF in `docs/` is generated locally too: capture a few states, then stitch them together.
+The demo GIF in `docs/` is generated locally too: capture a few states, run each one through
+`clean-capture.swift` (removes the application menus and status items, draws the notch at its real
+size), then stitch them together.
 
 ```bash
-swift scripts/make-gif.swift docs/notchbar-demo.gif 1200 \
+swift scripts/clean-capture.swift raw.png clean.png --notch 400,80,16
+swift scripts/make-gif.swift docs/notchbar-demo.gif 1400 \
     frame1.png:2.5 frame2.png:2.0 frame3.png:2.5 frame4.png:3.0
 ```
+
+`--notch` takes width, height and the bottom corner radius in screenshot pixels — on a 2x display
+400 × 80 × 16 is 200 × 40 × 8 pt.
 
 ## How it works
 

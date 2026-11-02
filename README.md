@@ -8,8 +8,9 @@
 
 ![NotchBar 运行效果](docs/notchbar-demo.gif)
 
-> 录的是菜单栏那一条：黑条开 → 关 → 开，最后一帧是菜单。macOS 截图本身不含摄像头开孔，
-> 所以看的是黑条有没有盖满整条、把刘海一起吃进去。
+> 录的是菜单栏那一条：黑条开 → 关 → 开，最后一帧是菜单。为了只看黑条本身，截图中菜单栏里的
+> 应用菜单和状态图标已经抹掉；macOS 截图不含摄像头开孔，中间那个刘海是按真机尺寸（200 × 40 pt）
+> 描上去的。黑条打开时刘海与黑条同色，只剩一圈边缘反光，这与真机上看到的一致。
 
 ## 要求
 
@@ -77,12 +78,16 @@ swift scripts/mkicon.swift Resources/icon_1024.png 1024
 图标是代码画的（`mkicon.swift` 里就是形状定义），不是从图片描出来的，所以仓库里
 只留 `icon_1024.png` 和 `AppIcon.icns`，日常构建不需要重新跑。
 
-`docs/` 里的演示动图也是本地生成：先截几张不同状态的图，再拼成 GIF。
+`docs/` 里的演示动图也是本地生成：先截几张不同状态的图，过一遍 `clean-capture.swift`
+（抹掉菜单栏里的应用菜单和状态图标、按真机尺寸补上刘海），再拼成 GIF。
 
 ```bash
-swift scripts/make-gif.swift docs/notchbar-demo.gif 1200 \
+swift scripts/clean-capture.swift raw.png clean.png --notch 400,80,16
+swift scripts/make-gif.swift docs/notchbar-demo.gif 1400 \
     frame1.png:2.5 frame2.png:2.0 frame3.png:2.5 frame4.png:3.0
 ```
+
+`--notch` 后面是宽、高、底部圆角，单位是截图像素 —— 2 倍屏上 400 × 80 × 16 对应 200 × 40 × 8 pt。
 
 ## 工作原理
 
