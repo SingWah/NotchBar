@@ -109,17 +109,19 @@ final class MenuBarController: NSObject, NSMenuDelegate {
             NSApp.activate()
         }
         menuNeedsUpdate(menu)
-        menu.popUp(positioning: nil, at: anchorPoint(), in: nil)
+        menu.popUp(positioning: nil, at: anchorPoint(for: menu), in: nil)
     }
 
-    /// Where the hidden status item would have been: right of the menu bar.
-    private func anchorPoint() -> NSPoint {
+    /// Where the hidden status item would have been: right of the menu bar, with
+    /// the menu's right edge a few points off the screen edge.
+    private func anchorPoint(for menu: NSMenu) -> NSPoint {
         guard let screen = ScreenMetrics.builtInScreen ?? NSScreen.main ?? NSScreen.screens.first else {
             return NSEvent.mouseLocation
         }
         let menuBar = ScreenMetrics.menuBarHeight(for: screen) ?? 24
-        let rightEdge = screen.frame.maxX - 220
-        return NSPoint(x: max(screen.frame.minX + 8, rightEdge),
+        let width = menu.size.width > 0 ? menu.size.width : 220
+        let left = screen.frame.maxX - width - 6
+        return NSPoint(x: max(screen.frame.minX + 8, left),
                        y: screen.frame.maxY - menuBar - 4)
     }
 

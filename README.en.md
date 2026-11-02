@@ -6,6 +6,12 @@ Paints the macOS menu bar solid black so the notch blends into it. The wallpaper
 
 Only shows up on MacBooks with a notch; external monitors never get the extra black strip.
 
+![NotchBar in action](docs/notchbar-demo.gif)
+
+> The clip covers the menu bar strip only: bar on → off → on, with the menu on the last frame.
+> macOS screenshots do not include the camera housing, so what you are looking at is whether the
+> strip covers the whole top edge along with the notch.
+
 ## Requirements
 
 - macOS 13 or later
@@ -68,6 +74,13 @@ swift scripts/mkicon.swift Resources/icon_1024.png 1024
 ```
 
 The icon is drawn in code (`mkicon.swift` holds the shape itself), not traced from an image, so the repo only keeps `icon_1024.png` and `AppIcon.icns`.
+
+The demo GIF in `docs/` is generated locally too: capture a few states, then stitch them together.
+
+```bash
+swift scripts/make-gif.swift docs/notchbar-demo.gif 1200 \
+    frame1.png:2.5 frame2.png:2.0 frame3.png:2.5 frame4.png:3.0
+```
 
 ## How it works
 

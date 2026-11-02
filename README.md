@@ -6,6 +6,11 @@
 
 只在带刘海的 MacBook 上生效；接外接显示器不会多出黑条。
 
+![NotchBar 运行效果](docs/notchbar-demo.gif)
+
+> 录的是菜单栏那一条：黑条开 → 关 → 开，最后一帧是菜单。macOS 截图本身不含摄像头开孔，
+> 所以看的是黑条有没有盖满整条、把刘海一起吃进去。
+
 ## 要求
 
 - macOS 13 或更高
@@ -71,6 +76,13 @@ swift scripts/mkicon.swift Resources/icon_1024.png 1024
 
 图标是代码画的（`mkicon.swift` 里就是形状定义），不是从图片描出来的，所以仓库里
 只留 `icon_1024.png` 和 `AppIcon.icns`，日常构建不需要重新跑。
+
+`docs/` 里的演示动图也是本地生成：先截几张不同状态的图，再拼成 GIF。
+
+```bash
+swift scripts/make-gif.swift docs/notchbar-demo.gif 1200 \
+    frame1.png:2.5 frame2.png:2.0 frame3.png:2.5 frame4.png:3.0
+```
 
 ## 工作原理
 
