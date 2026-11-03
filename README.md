@@ -33,7 +33,7 @@
 | 在菜单栏显示图标 | 关掉之后菜单栏不再有图标，改用 ⌃⌥N 叫出菜单 |
 | 在 Dock 中显示 | 默认只在菜单栏出现，不占 Dock |
 | 语言 | 跟随系统 / 中文 / English，切换后立即生效 |
-| 关于 / 退出 | 关于里带作者 SingWah 与 GitHub 链接 |
+| 关于 / 退出 | 关于弹窗里显示版本号与项目链接 |
 
 ## 语言
 
@@ -52,10 +52,6 @@
 - 关掉图标时会弹一次提示，说明上面两种方式
 
 图标重新打开后，全局快捷键会立刻注销，不占用任何键位。
-
-## 作者
-
-SingWah — https://github.com/SingWah
 
 ## 从源码构建
 
@@ -77,18 +73,6 @@ swift scripts/mkicon.swift Resources/icon_1024.png 1024
 
 图标是代码画的（`mkicon.swift` 里就是形状定义），不是从图片描出来的，所以仓库里
 只留 `icon_1024.png` 和 `AppIcon.icns`，日常构建不需要重新跑。
-
-`docs/` 里的演示动图也是本地生成：先截几张不同状态的图，过一遍 `clean-capture.swift`
-（抹掉菜单栏里的应用菜单和状态图标、按真机尺寸补上刘海），再拼成 GIF。
-
-```bash
-swift scripts/clean-capture.swift raw.png clean.png --notch 400,80,16
-swift scripts/make-gif.swift docs/notchbar-demo.gif 1400 \
-    frame1.png:2.5 frame2.png:2.0 frame3.png:2.5 frame4.png:3.0
-```
-
-`--notch` 后面是宽、高、底部圆角，单位是截图像素 —— 2 倍屏上 400 × 80 × 16 对应 200 × 40 × 8 pt。
-刘海默认不描边：黑条打开时它与黑条同为纯黑，会完全融进去；想看见轮廓就加 `--glint`。
 
 ## 工作原理
 

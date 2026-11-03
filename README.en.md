@@ -35,7 +35,7 @@ The app is not signed, so the first launch of a downloaded copy needs right-clic
 | Show Menu Bar Icon | turning it off removes the icon; use ⌃⌥N to open the menu |
 | Show in Dock | off by default, the app lives only in the menu bar |
 | Language | System Default / 中文 / English, applies immediately |
-| About / Quit | the About panel carries the author, SingWah, and the GitHub link |
+| About / Quit | the About panel shows the version and a link to the project |
 
 ## Language
 
@@ -52,10 +52,6 @@ The menu hangs off the status item, so once the icon is gone there is nothing to
 - A one-time note appears when you hide the icon, explaining both
 
 The shortcut is unregistered as soon as the icon comes back, so it never holds a key combination while unused.
-
-## Author
-
-SingWah — https://github.com/SingWah
 
 ## Build from source
 
@@ -76,20 +72,6 @@ swift scripts/mkicon.swift Resources/icon_1024.png 1024
 ```
 
 The icon is drawn in code (`mkicon.swift` holds the shape itself), not traced from an image, so the repo only keeps `icon_1024.png` and `AppIcon.icns`.
-
-The demo GIF in `docs/` is generated locally too: capture a few states, run each one through
-`clean-capture.swift` (removes the application menus and status items, draws the notch at its real
-size), then stitch them together.
-
-```bash
-swift scripts/clean-capture.swift raw.png clean.png --notch 400,80,16
-swift scripts/make-gif.swift docs/notchbar-demo.gif 1400 \
-    frame1.png:2.5 frame2.png:2.0 frame3.png:2.5 frame4.png:3.0
-```
-
-`--notch` takes width, height and the bottom corner radius in screenshot pixels — on a 2x display
-400 × 80 × 16 is 200 × 40 × 8 pt. The notch carries no outline by default: with the strip on it is
-the same black and disappears into it. Pass `--glint` if you want to see its edge.
 
 ## How it works
 
