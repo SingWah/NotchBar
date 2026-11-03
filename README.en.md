@@ -11,8 +11,8 @@ Only shows up on MacBooks with a notch; external monitors never get the extra bl
 > The clip covers the menu bar strip only: bar on → off → on, with the menu on the last frame.
 > The application menus and status items have been removed from the shots so only the strip is left,
 > and macOS screenshots never include the camera housing — the notch in the middle is drawn on at its
-> real size (200 × 40 pt). With the bar on it is the same black as the strip, leaving just the edge
-> glint, which is what the real screen looks like.
+> real size (200 × 40 pt). With the bar on it is the same black as the strip and merges into it, which
+> is the whole point of the tool.
 
 ## Requirements
 
@@ -88,7 +88,8 @@ swift scripts/make-gif.swift docs/notchbar-demo.gif 1400 \
 ```
 
 `--notch` takes width, height and the bottom corner radius in screenshot pixels — on a 2x display
-400 × 80 × 16 is 200 × 40 × 8 pt.
+400 × 80 × 16 is 200 × 40 × 8 pt. The notch carries no outline by default: with the strip on it is
+the same black and disappears into it. Pass `--glint` if you want to see its edge.
 
 ## How it works
 

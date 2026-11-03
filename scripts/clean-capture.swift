@@ -3,7 +3,7 @@ import Foundation
 import ImageIO
 import UniformTypeIdentifiers
 
-// usage: swift clean-capture.swift <in.png> <out.png> [--notch W,H,R] [--bar N]
+// usage: swift clean-capture.swift <in.png> <out.png> [--notch W,H,R] [--bar N] [--glint]
 //
 // Prepares a screencapture for the README animation. Two jobs:
 //
@@ -17,6 +17,11 @@ import UniformTypeIdentifiers
 // brighter than the strip is text or an icon, so it can simply go black. When the
 // overlay is off the strip is wallpaper, and the columns behind the menus are
 // refilled with the colour of the nearest column that has no text.
+//
+// The notch is drawn as a plain black shape with no outline. With the strip on it
+// therefore vanishes into the black, which is the whole point of the app; only
+// the frame with the strip off shows it. Pass --glint to add a faint edge along
+// its sides instead.
 
 struct Bitmap {
     var width: Int
@@ -77,6 +82,7 @@ let outputPath = args[2]
 
 var notch: (width: Int, height: Int, radius: Int)? = nil
 var forcedBar: Int? = nil
+var glintEnabled = false
 var index = 3
 while index < args.count {
     switch args[index] {
@@ -84,6 +90,9 @@ while index < args.count {
         let parts = args[index + 1].split(separator: ",").compactMap { Int($0) }
         if parts.count == 3 { notch = (parts[0], parts[1], parts[2]) }
         index += 2
+    case "--glint":
+        glintEnabled = true
+        index += 1
     case "--bar":
         forcedBar = Int(args[index + 1])
         index += 2
@@ -227,8 +236,12 @@ if let notch, notch.width > 0 {
         return bottom - y
     }
 
+    // The notch is a hole in the panel, so it is the same black as the strip and
+    // disappears into it — exactly what the app is for. A glint along the sides
+    // is therefore off by default; only the frame where the strip is off shows
+    // the notch as a black shape against the wallpaper.
     let glintWidth = 5.0
-    let glintAlpha = 0.45
+    let glintAlpha: Double = glintEnabled ? 0.45 : 0.0
     var inside = 0, glints = 0
     for y in 0 ..< Int(bottom.rounded(.up)) {
         for x in Int(x0.rounded(.down)) ... min(width - 1, Int(x1.rounded(.up))) {
@@ -257,7 +270,8 @@ if let notch, notch.width > 0 {
             if cover > 0.5 { inside += 1 }
         }
     }
-    print("notch \(notch.width)x\(notch.height) r=\(notch.radius) inside=\(inside) glints=\(glints)")
+    print("notch \(notch.width)x\(notch.height) r=\(notch.radius) inside=\(inside)"
+          + (glintEnabled ? " glints=\(glints)" : ""))
 }
 
 save(bitmap, to: outputPath)
